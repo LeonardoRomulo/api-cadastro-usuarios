@@ -11,4 +11,4 @@ const conexao = mysql.createPool ({
     port:process.env. DB_PORT,
 });
 
-export defualt conexao;
+export default conexao;
