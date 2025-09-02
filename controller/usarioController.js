@@ -5,6 +5,14 @@ class usuarioController {
     static async criarUsuario(req,res){
         try{
             const {nome, email, telefone} = req.body;
+            
+            //verificando se há usuários duplicados na tabela
+            const queryVerifica = 'SELECT * FROM usuarios WHERE nome = ? or email = ? or telefone =?';
+            const [usuariosExistentes] = await conexao.query(queryVerifica, [nome, email, telefone]);
+            if (usuariosExistentes.length > 0){
+                return res.status(409).json({error: 'Usuário já cadastrado'});
+            }
+
             const usuario = new usuario(nome,email,telefone);
             const query = 'INSERT INTO usuarios (nome, email, telefone) VALUES(?, ?, ?)';
             await conexao.query(query, [usuario.nome, usuario.email, usuario.telefone]);
