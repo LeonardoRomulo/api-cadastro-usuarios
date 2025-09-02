@@ -1,5 +1,5 @@
-import conexao from "../model/conexao";
-import usuario from "../model/usuario";
+import conexao from "../model/conexao.js";
+import Usuario from "../model/usuario.js";
 
 class usuarioController {
     static async criarUsuario(req,res){
@@ -13,7 +13,7 @@ class usuarioController {
                 return res.status(409).json({error: 'Usuário já cadastrado'});
             }
 
-            const usuario = new usuario(nome,email,telefone);
+            const usuario = new Usuario(nome,email,telefone);
             const query = 'INSERT INTO usuarios (nome, email, telefone) VALUES(?, ?, ?)';
             await conexao.query(query, [usuario.nome, usuario.email, usuario.telefone]);
             return res.status(201).json({message:'Usuário criado com sucesso'});
